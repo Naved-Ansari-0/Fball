@@ -1,0 +1,19 @@
+#: import SlideTransition kivy.uix.screenmanager.SlideTransition
+#: import SwapTransition kivy.uix.screenmanager.SwapTransition
+#: import WipeTransition kivy.uix.screenmanager.WipeTransition
+#: import RiseInTransition kivy.uix.screenmanager.RiseInTransition
+#: import NoTransition kivy.uix.screenmanager.NoTransition
+#: import FallOutTransition kivy.uix.screenmanager.FallOutTransition
+#: import FadeTransition kivy.uix.screenmanager.FadeTransition
+#: import utils kivy.utils
+
+<RotateImage@Image>:
+    angle: 0
+    canvas.before:
+        PushMatrix
+        Rotate:
+            angle: root.angle
+            axis: 0,0,1
+            origin: root.center
+    canvas.after:
+        PopMatrix

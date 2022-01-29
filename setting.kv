@@ -1,0 +1,77 @@
+<Setting>:
+    name: "SettingWindow"
+    canvas.before:
+        Color:
+            #rgba: (0.25,0.5,0.75,1)
+            rgba: (197/255,205/255,217/255,1)
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    FloatLayout:
+        size: root.width, root.height
+
+        Image:
+            background_normal: (0,0,0,0)
+            source: "images/person.png"
+            size_hint: 0.3, 0.3
+            pos_hint: {"center_x":0.25,"y":0.7}
+        Button:
+            on_press:
+                root.manager.transition = RiseInTransition()
+                root.manager.current = "HomeWindow"
+            size_hint:  (1/9, 1/17)
+            pos_hint: {"center_x":1/16, "center_y":29/30}
+            background_normal: ''
+            background_down: ''
+            background_color: (0,0,0,0)
+        Image:
+            source: "images/back.png"
+            size_hint: (1/9, 1/17)
+            pos_hint: {"center_x":1/16, "center_y":29/30}
+            allow_stretch: True
+            keep_ratio: False
+        Label:
+            id: SettingID
+            text: root.localdata.get("details")["username"]
+            font_size: self.height/2
+            pos_hint: {"center_x":0.6,"center_y":0.85}
+            size_hint: 1, 0.05
+            color: (1,1,1,1)
+            bold: True
+        Button:
+            on_release:
+                root.ClearCredentials()
+                root.manager.transition = NoTransition()
+                root.manager.current = "SignInWindow"
+            text: "Log out"
+            font_size: self.height/3
+            size_hint:  (0.3, 0.05)
+            pos_hint: {"center_x":0.3, "center_y":0.1}
+            background_color: (0,0,0.8,1)
+            background_normal: ""
+        Button:
+            on_release:
+                root.DeleteAccount()
+            text: "DELETE Account"
+            font_size: self.height/3
+            size_hint:  (0.3, 0.05)
+            pos_hint: {"center_x":0.7, "center_y":0.1}
+            background_color: (0.8,0,0,1)
+            background_normal: ""
+        Label:
+            text: "Game Sound"
+            font_size: self.height/2
+            pos_hint: {"center_x":0.2,"center_y":0.4}
+            size_hint: 1, 0.05
+            color: (0.2,0.2,0.2,1)
+            bold: True
+        Slider:
+            id: GameSound
+            min: 0.0
+            max: 1.0
+            value: root.localdata.get("volume")["value"]
+            orientation: "horizontal"
+            pos_hint: {"center_x":0.6,"center_y": 0.4}
+            size_hint: (0.5,0.05)
+            on_value:
+                root.ChangeVolume()
