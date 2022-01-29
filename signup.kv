@@ -1,0 +1,129 @@
+<SignUp>
+    name: "SignUpWindow"
+    canvas.before:
+        Color:
+            rgba: (197/255,205/255,217/255,1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    FloatLayout:
+        size: root.width, root.height
+
+        Button:
+            on_press:
+                sign_up_error.text = ''
+                root.manager.transition = SlideTransition(direction='right')
+                root.manager.current = "SignInWindow"
+            text: "Sign In"
+            bold: True
+            font_size: self.height/3
+            color: (10/255,32/255,122/255,1)
+            size_hint: (0.25,0.075)
+            pos_hint: {"x":0.23,"y":0.3}
+            background_normal: ''
+            background_down: ''
+            background_color: (1,1,1,1)
+            canvas.before:
+                Color:
+                    rgba: (10/255,32/255,122/255,1)
+                Line:
+                    width: 2
+                    rectangle: self.x, self.y, self.width, self.height
+        Button:
+            on_press:
+                root.ValidateAccountCreation()
+            text: "Sign Up"
+            bold: True
+            font_size: self.height/3
+            color: (1,1,1,1)
+            size_hint: (0.25,0.075)
+            pos_hint: {"x":0.52,"y":0.3}
+            background_normal: ''
+            background_down: ''
+            background_color: (10/255,32/255,122/255,1)
+            canvas.before:
+                Color:
+                    rgba: self.background_color
+                Line:
+                    width: 2
+                    rectangle: self.x, self.y, self.width, self.height
+        Button:
+            on_press:
+                sign_up_pwd_input.password = False
+                sign_up_pwd_input_confirm.password = False
+                sign_up_password_eye.source = "images/eye.png"
+            on_release:
+                sign_up_pwd_input.password = True
+                sign_up_pwd_input_confirm.password = True
+                sign_up_password_eye.source = "images/eye-cross.png"
+            size_hint: (0.1,0.07)
+            pos_hint: {"x":0.86,"y":0.52}
+            background_color: (0,0,0,0)
+        Image:
+            id: sign_up_password_eye
+            source: "images/eye-cross.png"
+            size_hint: (0.1,0.07)
+            pos_hint: {"x":0.86,"y":0.52}
+
+        TextInput:
+            id: sign_up_name_input
+            multiline: False
+            font_size: self.height/2
+            size_hint: (0.7,0.07)
+            pos_hint: {"x":0.15,"y":0.76}
+        TextInput:
+            id: sign_up_id_input
+            multiline: False
+            font_size: self.height/2
+            size_hint: (0.7,0.07)
+            pos_hint: {"x":0.15,"y":0.64}
+        TextInput:
+            id: sign_up_pwd_input
+            password: True
+            multiline: False
+            font_size: self.height/2
+            size_hint: (0.7,0.07)
+            pos_hint: {"x":0.15,"y":0.52}
+        TextInput:
+            id: sign_up_pwd_input_confirm
+            password: True
+            multiline: False
+            font_size: self.height/2
+            size_hint: (0.7,0.07)
+            pos_hint: {"x":0.15,"y":0.4}
+
+        Label:
+            text: "Enter Full Name"
+            font_size: self.height/3
+            italic: True
+            color: (0.2,0.2,0.2,1)
+            size_hint: (0.7,0.07)
+            pos_hint: {"center_x":0.2,"y":0.83}
+        Label:
+            text: "Enter Username"
+            font_size: self.height/3
+            italic: True
+            color: (0.2,0.2,0.2,1)
+            size_hint: (0.7,0.07)
+            pos_hint: {"center_x":0.2,"y":0.71}
+        Label:
+            text: "Enter Password"
+            font_size: self.height/3
+            italic: True
+            color: (0.2,0.2,0.2,1)
+            size_hint: (0.7,0.07)
+            pos_hint: {"center_x":0.2,"y":0.59}
+        Label:
+            text: "Confirm Password"
+            font_size: self.height/3
+            italic: True
+            color: (0.2,0.2,0.2,1)
+            size_hint: (0.7,0.07)
+            pos_hint: {"center_x":0.2,"y":0.47}
+        Label:
+            id: sign_up_error
+            text: ""
+            font_size: self.height/3
+            color: (1,0,0,1)
+            size_hint: (0.7,0.07)
+            pos_hint: {"x":0.15,"y":0.2}

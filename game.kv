@@ -1,0 +1,291 @@
+<Game>:
+    name: "GameWindow"
+    canvas.before:
+        Color:
+            rgba: utils.get_color_from_hex("#006400")
+        Rectangle: # Dark Green canvas
+            size: self.size
+            pos: self.pos
+        Color:
+            rgba: (1,1,1,1)
+        RoundedRectangle: # White court border
+            size: self.width*48/50, self.height*80/100
+            pos: self.width/50, self.height*15/100
+            radius: [self.width/25]
+        Color:
+            rgba: utils.get_color_from_hex("#59A608")
+        RoundedRectangle: # Green court
+            size: self.width*46/50, self.height*78/100
+            pos: self.width*2/50, self.height*16/100
+            radius: [self.width/25]
+        Color: 
+            rgba: (1,1,1,1)
+        Rectangle: # Upper Goal
+            size: self.width/4, self.height/100
+            pos: self.width*7.5/20, self.height*98/100
+        Rectangle:
+            size: self.width/200, self.height*3/100
+            pos: self.width*7.5/20, self.height*95/100
+        Rectangle:
+            size: self.width/200, self.height*4/100
+            pos: self.width*12.5/20, self.height*95/100
+
+        Rectangle: # Lower Goal
+            size: self.width/4, self.height/100
+            pos: self.width*7.5/20, self.height*20/100
+        Rectangle:
+            size: self.width/200, self.height*5/100
+            pos: self.width*7.5/20, self.height*16/100
+        Rectangle:
+            size: self.width/200, self.height*5/100
+            pos: self.width*12.5/20, self.height*16/100
+
+        Rectangle: # Middle line
+            size: self.width*48/50, self.width/200
+            pos: self.width/50, self.height*55/100
+        Rectangle: # Upper Line
+            size: self.width*48/50, self.width/200
+            pos: self.width/50, self.height*88/100
+        Rectangle: # Lower Line
+            size: self.width*48/50, self.width/200
+            pos: self.width/50, self.height*22/100
+
+
+
+    FloatLayout:
+        size: root.width, root.height
+
+        RotateImage:
+            id: ball
+            source: "images/ball.png"
+            size_hint: 0.05,0.05
+            pos: root.width*19/40, root.height*53/100
+            angle: 0
+        Image:
+            id: player
+            source: "images/player-back-still.png"
+            size_hint: 0.1, 0.1
+            pos: root.width*19/40, root.height*25/100
+        Image:
+            id: opponent
+            source: "images/opponent-front-still.png"
+            size_hint: 0.1, 0.1
+            pos: root.width*19/40, root.height*88/100
+
+
+        Button:
+            on_release:
+                root.EndGame()
+                root.manager.transition = NoTransition()
+                root.manager.current = "HomeWindow"
+            size_hint:  (1/11, 1/21)
+            pos_hint: {"center_x":1/20, "center_y":39/40}
+            background_normal: ''
+            background_down: ''
+            background_color: (0,0,0,0)
+        Image:
+            source: "images/cross.png"
+            size_hint: (1/11, 1/21)
+            pos_hint: {"center_x":1/20, "center_y":39/40}
+            allow_stretch: True
+            keep_ratio: False
+        Label:
+            text: "Score"
+            bold: True
+            italic: True
+            font_size: self.height*3/4
+            color: (1,1,1,1)
+            size_hint: (2.5/20, 1/31)
+            pos_hint: {"x":13/20, "center_y":39/40}
+            background_color: (0,0,0,1)
+            canvas.before:
+                Color:
+                    rgba: self.background_color
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos
+                    radius: [10,0,0,0]
+        Label:
+            id: my_score
+            text: "0"
+            bold: True
+            font_size: self.height*3/4
+            color: (1,1,1,1)
+            size_hint: (1.5/20, 1/31)
+            pos_hint: {"x":15.5/20, "center_y":39/40}
+            background_color: (0,0,0,1)
+            canvas.before:
+                Color:
+                    rgba: self.background_color
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+        Label:
+            text: ":"
+            bold: True
+            font_size: self.height*3/4
+            color: (1,1,1,1)
+            size_hint: (0.5/20, 1/31)
+            pos_hint: {"x":17/20, "center_y":39/40}
+            background_color: (0,0,0,1)
+            canvas.before:
+                Color:
+                    rgba: self.background_color
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+        Label:
+            id: opponent_score
+            text: "0"
+            bold: True
+            font_size: self.height*3/4
+            color: (1,1,1,1)
+            size_hint: (1.5/20, 1/31)
+            pos_hint: {"x":17.5/20, "center_y":39/40}
+            background_color: (0,0,0,1)
+            canvas.before:
+                Color:
+                    rgba: self.background_color
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos
+                    radius: [0,0,10,0]
+
+        Button:
+            on_press:
+                root.MoveUp()
+            on_release:
+                root.StopUp()
+            id: up_bt
+            group: "play_game"
+            size_hint:  (1/6, 1/21)
+            pos_hint: {"center_x":11/22, "y": 10/100}
+            background_normal: ''
+            background_color: (1,0,0,1)
+            disabled: False
+        Image:
+            id: up_img
+            source: "images/up.png"
+            size_hint: (1/11, 1/21)
+            pos_hint: {"center_x":11/22, "y":10/100}
+            allow_stretch: True
+            keep_ratio: False
+            color: (1,1,1,1)
+        Button:
+            on_press:
+                root.MoveDown()
+            on_release:
+                root.StopDown()
+            id: down_bt
+            group: "play_game"
+            size_hint:  (1/6, 1/21)
+            pos_hint: {"center_x":11/22, "y":0}
+            background_normal: ''
+            background_color: (1,0,0,1)
+            disabled: False
+        Image:
+            id: down_img
+            source: "images/down.png"
+            size_hint: (1/11, 1/21)
+            pos_hint: {"center_x":11/22, "y":0}
+            allow_stretch: True
+            keep_ratio: False
+            color: (1,1,1,1)
+        Button:
+            on_press:
+                root.MoveLeft()
+            on_release:
+                root.StopLeft()
+            id: left_bt
+            group: "play_game"
+            size_hint:  (1/6, 1/21)
+            pos_hint: {"center_x":7/22, "y":5/100}
+            background_normal: ''
+            background_color: (1,0,0,1)
+            disabled: False
+        Image:
+            id: left_img
+            source: "images/left.png"
+            size_hint: (1/11, 1/21)
+            pos_hint: {"center_x":7/22, "y":5/100}
+            allow_stretch: True
+            keep_ratio: False
+            color: (1,1,1,1)
+        Button:
+            on_press:
+                root.MoveRight()
+            on_release:
+                root.StopRight()
+            id: right_bt
+            group: "play_game"
+            size_hint:  (1/6, 1/21)
+            pos_hint: {"center_x":15/22, "y":5/100}
+            background_normal: ''
+            background_color: (1,0,0,1)
+            disabled: False
+        Image:
+            id: right_img
+            source: "images/right.png"
+            size_hint: (1/11, 1/21)
+            pos_hint: {"center_x":15/22, "y":5/100}
+            allow_stretch: True
+            keep_ratio: False
+            color: (1,1,1,1)
+        Button:
+            on_press:
+                root.BoostKick()
+            on_release:
+                root.ShootBall()
+            id: shoot_bt_l
+            text: "Shoot"
+            font_size: self.width/4
+            bold: True
+            italic: True
+            color: (0,0,1,1)
+            size_hint:  (1/11, 1/21)
+            pos_hint: {"center_x":3/22, "y":5/100}
+            background_normal: ''
+            background_color: (1,1,1,1)
+            disabled: False
+        Button:
+            on_press:
+                root.BoostKick()
+            on_release:
+                root.ShootBall()
+            id: shoot_bt_r
+            text: "Shoot"
+            font_size: self.width/4
+            bold: True
+            italic: True
+            color: (0,0,1,1)
+            size_hint:  (1/11, 1/21)
+            pos_hint: {"center_x":19/22, "y":5/100}
+            background_normal: ''
+            background_color: (1,1,1,1)
+            disabled: False
+        Label:
+            id: response
+            text: ""
+            font_size: self.height/8
+            text_size: self.width, self.height
+            size_hint: 1,0.15
+            halign: "center"
+            valign: "top"
+            color: (1,1,1,1)
+            outline_color: (0,0,0,1)
+            outline_width: 2
+            pos_hint: {"center_x":0.5, "center_y":7.5/100}
+        Button:
+            on_press:
+                root.RestoreControls()
+            id: response_bt
+            text: ""
+            font_size: self.height/2
+            bold: True
+            italic: True
+            color: (0,0,0,0)
+            size_hint:  (2/11, 1/21)
+            pos_hint: {"center_x":11/22, "y":5/100}
+            background_normal: ''
+            disabled: True
+            background_color: (0,0,0,0)

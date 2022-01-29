@@ -1,0 +1,303 @@
+<Home>:
+    name: "HomeWindow"
+    canvas.before:
+        Color:
+            rgba: (153/255,166/255,135/255,1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+        Color:
+            rgba: (192/255,192/255,192/255,1)
+        Ellipse: # Big Circle
+            pos: root.width/2-min(root.width/3,root.height/3)/2, -min(root.width/3,root.height/3)/2
+            size: min(root.width/3,root.height/3), min(root.width/3,root.height/3)
+        Color:
+            rgba: (67/255,175/255,17/255,1)
+        Ellipse: # Small Circle
+            pos: root.width/2-min(root.width/3,root.height/3)/2+3, -min(root.width/3,root.height/3)/2-3
+            size: min(root.width/3,root.height/3)-6, min(root.width/3,root.height/3)-6
+        Color:
+            rgba: (133/255,146/255,115/255,1)
+        Rectangle: # Top Bar
+            pos: 0,self.height*14/15
+            size: self.width, self.height/15
+        Color:
+            rgba: (113/255,126/255,95/255,1)
+        Rectangle: # Line below Top Bar
+            pos: 0,self.height*14/15-5
+            size: self.width, 5
+
+    FloatLayout:
+        size: root.width, root.height
+
+        Button:
+            on_press:
+                setting.angle = 22.5
+            on_release:
+                setting.angle = 0
+                root.manager.transition = FallOutTransition()
+                root.manager.current = "SettingWindow"
+            size_hint:  (1/9, 1/17)
+            pos_hint: {"center_x":1/16, "center_y":29/30}
+            background_normal: ''
+            background_down: ''
+            background_color: (0,0,0,0)
+            canvas.before:
+                Color:
+                    rgba: (93/255,106/255,75/255,1)
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos
+                    radius: [7]
+        RotateImage:
+            id: setting
+            source: "images/setting.png"
+            size_hint: (1/9, 1/17)
+            pos_hint: {"center_x":1/16, "center_y":29/30}
+            angle: 0
+        Button:
+            text: "PLAY"
+            font_size: self.height/2
+            italic: True
+            bold: True
+            pos_hint: {"x": 0.42, "y": 0}
+            size_hint: 0.16, 0.075
+            color: (1,1,0)
+            outline_color: (0.25,0.5,0.75)
+            outline_width: 3
+            background_color: (0,0,0,0)
+            on_press:
+                #root.MakeConnection()
+                root.PlayGame()
+                root.manager.transition = FadeTransition()
+                root.manager.current = "GameWindow"
+        Label:
+            id: HomeName
+            text: root.localdata.get("details")["name"]
+            font_size: self.height/2
+            bold: True
+            size_hint: (1/9, 1/17)
+            pos_hint: {"center_x":8/16, "center_y":29/30}
+            color: (113/255,126/255,95/255)
+            outline_color: (143/255,156/255,125/255)
+            outline_width: 5
+
+        Label:
+            text: "Match Played : "
+            font_size: self.height/2
+            bold: True
+            size_hint: (0.3, 1/25)
+            pos_hint: {"x":0, "center_y":27/30}
+            color: (113/255,126/255,95/255)
+        Label:
+            id: matches
+            text: str(root.localdata.get("progress")["matches"])
+            font_size: self.height/2
+            bold: True
+            italic: True
+            size_hint: (0.1, 1/25)
+            pos_hint: {"x":0.3, "center_y":27/30}
+            color: (113/255,126/255,95/255)
+        Label:
+            text: "Goals Scored : "
+            font_size: self.height/2
+            bold: True
+            size_hint: (0.3, 1/25)
+            pos_hint: {"x":0, "center_y":26/30}
+            color: (113/255,126/255,95/255)
+        Label:
+            id: goals
+            text: str(root.localdata.get("progress")["goals"])
+            font_size: self.height/2
+            bold: True
+            italic: True
+            size_hint: (0.1, 1/25)
+            pos_hint: {"x":0.3, "center_y":26/30}
+            color: (113/255,126/255,95/255)
+        Button:
+            text: "Refresh"
+            size_hint: (0.2,0.04)
+            pos_hint: {"center_x": 0.85, "center_y": 0.55}
+            font_size: self.height/2
+            background_normal: ""
+            background_color: (113/255,126/255,95/255,1)
+            on_press:
+                root.SyncData()
+                root.UpdateRanking()
+        GridLayout:
+            size_hint: (0.9,0.25)
+            pos_hint: {"center_x": 0.5, "center_y": 0.7}
+            cols: 4
+            rows: 1
+            canvas.before:
+                Color:
+                    rgba: (133/255,146/255,115/255,1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            BoxLayout:
+                orientation: "vertical"
+                size_hint: (0.7,0.25)
+                Label:
+                    text: "Rank"
+                    font_size: self.height/2
+                    bold: True
+                    color: (0.9,0.9,0.9,1)
+                    canvas.before:
+                        Color:
+                            rgba: (113/255,126/255,95/255,1)
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                Label:
+                    text: "1"
+                    font_size: self.height/2
+                    color: (0.9,0.9,0.9,1)
+                Label:
+                    text: "2"
+                    font_size: self.height/2
+                    color: (0.9,0.9,0.9,1)
+                Label:
+                    text: "3"
+                    font_size: self.height/2
+                    color: (0.9,0.9,0.9,1)
+                Label:
+                    text: "4"
+                    font_size: self.height/2
+                    color: (0.9,0.9,0.9,1)
+                Label:
+                    text: "5"
+                    font_size: self.height/2
+                    color: (0.9,0.9,0.9,1)
+            BoxLayout:
+                orientation: "vertical"
+                size_hint: (1.5, self.height)
+                Label:
+                    text: "Username"
+                    font_size: self.height/2
+                    bold: True
+                    color: (0.9,0.9,0.9,1)
+                    canvas.before:
+                        Color:
+                            rgba: (113/255,126/255,95/255,1)
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                Label:
+                    id: id1
+                    text: str(root.ranking.get("1")["username"])
+                    italic: True
+                    font_size: self.height/2
+                    color: (0.9,0.9,0.9,1)
+                Label:
+                    id: id2
+                    text: str(root.ranking.get("2")["username"])
+                    italic: True
+                    font_size: self.height/2
+                    color: (0.9,0.9,0.9,1)
+                Label:
+                    id: id3
+                    text: str(root.ranking.get("3")["username"])
+                    italic: True
+                    font_size: self.height/2
+                    color: (0.9,0.9,0.9,1)
+                Label:
+                    id: id4
+                    text: str(root.ranking.get("4")["username"])
+                    italic: True
+                    font_size: self.height/2
+                    color: (0.9,0.9,0.9,1)
+                Label:
+                    id: id5
+                    text: str(root.ranking.get("5")["username"])
+                    italic: True
+                    font_size: self.height/2
+                    color: (0.9,0.9,0.9,1)
+            BoxLayout:
+                orientation: "vertical"
+                size_hint: (0.7, self.height)
+                Label:
+                    text: "Goals"
+                    font_size: self.height/2
+                    bold: True
+                    color: (0.9,0.9,0.9,1)
+                    canvas.before:
+                        Color:
+                            rgba: (113/255,126/255,95/255,1)
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                Label:
+                    id: goals1
+                    text: str(root.ranking.get("1")["goals"])
+                    font_size: self.height/2
+                    italic: True
+                    color: (0.9,0.9,0.9,1)
+                Label:
+                    id: goals2
+                    text: str(root.ranking.get("2")["goals"])
+                    font_size: self.height/2
+                    italic: True
+                    color: (0.9,0.9,0.9,1)
+                Label:
+                    id: goals3
+                    text: str(root.ranking.get("3")["goals"])
+                    font_size: self.height/2
+                    italic: True
+                    color: (0.9,0.9,0.9,1)
+                Label:
+                    id: goals4
+                    text: str(root.ranking.get("4")["goals"])
+                    font_size: self.height/2
+                    italic: True
+                    color: (0.9,0.9,0.9,1)
+                Label:
+                    id: goals5
+                    text: str(root.ranking.get("5")["goals"])
+                    font_size: self.height/2
+                    italic: True
+                    color: (0.9,0.9,0.9,1)
+            BoxLayout:
+                orientation: "vertical"
+                size_hint: (0.7, self.height)
+                Label:
+                    text: "Matches"
+                    font_size: self.height/2
+                    bold: True
+                    color: (0.9,0.9,0.9,1)
+                    canvas.before:
+                        Color:
+                            rgba: (113/255,126/255,95/255,1)
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                Label:
+                    id: matches1
+                    text: str(root.ranking.get("1")["matches"])
+                    font_size: self.height/2
+                    italic: True
+                    color: (0.9,0.9,0.9,1)
+                Label:
+                    id: matches2
+                    text: str(root.ranking.get("2")["matches"])
+                    font_size: self.height/2
+                    italic: True
+                    color: (0.9,0.9,0.9,1)
+                Label:
+                    id: matches3
+                    text: str(root.ranking.get("3")["matches"])
+                    font_size: self.height/2
+                    italic: True
+                    color: (0.9,0.9,0.9,1)
+                Label:
+                    id: matches4
+                    text: str(root.ranking.get("4")["matches"])
+                    font_size: self.height/2
+                    italic: True
+                    color: (0.9,0.9,0.9,1)
+                Label:
+                    id: matches5
+                    text: str(root.ranking.get("5")["matches"])
+                    font_size: self.height/2
+                    italic: True
+                    color: (0.9,0.9,0.9,1)
